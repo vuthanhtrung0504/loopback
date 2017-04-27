@@ -13,6 +13,7 @@ exports.convertMemberToMemberJSON = function (member) {
         birthday: memberJSON.birthday,
         sex: memberJSON.sex,
         department: memberJSON.department,
+        departmentId: memberJSON.departmentId,
     };
 
     return memberObj;

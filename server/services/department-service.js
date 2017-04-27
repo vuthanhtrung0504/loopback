@@ -5,7 +5,7 @@ var app = require('../server');
 var async = require('async');
 var transactionHelper = require('../libs/transaction-helper');
 
-exports.createMember = function (member, options, callback) {
+exports.createDepartment = function (department, options, callback) {
 
     var isInitTransaction = false;
 
@@ -16,14 +16,18 @@ exports.createMember = function (member, options, callback) {
 
     async.waterfall([
         function (next) {
-            transactionHelper.beginTransaction(app.models.member, options, function (err, tx, isInit) {
+            transactionHelper.beginTransaction(app.models.department, options, function (err, tx, isInit) {
                 if (err) return next(err);
                 isInitTransaction = isInit;
                 next(null);
             });
         },
         function (next) {
-            app.models.member.create(member, options, function (err, instance) {
+            app.models.department.create(department, options, function (err, instance) {
+                instance.forEach(function (mem) {
+                    console.log(mem.name.getIdName())
+                });
+                
                 next(err, instance);
             });
         },
@@ -43,24 +47,24 @@ exports.createMember = function (member, options, callback) {
     });
 };
 
-var createMembers = function (members, options, callback) {
+var createDepartments = function (departments, options, callback) {
 
-    let memberObjs = [];
+    let departmentObjs = [];
 
-    async.eachSeries(members, function (member, next) {
-        exports.createMember(member, options, function (err, instance) {
+    async.eachSeries(departments, function (department, next) {
+        exports.createDepartment(department, options, function (err, instance) {
             if (err || !instance) return next(err, instance);
-            memberObjs.push(instance);
+            departmentObjs.push(instance);
             next(null, instance);
         });
 
     }, function (err) {
-        callback(err, memberObjs);
+        callback(err, departmentObjs);
     });
 
 };
 
-exports.createMembers = function (members, options, callback) {
+exports.createDepartments = function (departments, options, callback) {
 
     var isInitTransaction = false;
 
@@ -71,32 +75,37 @@ exports.createMembers = function (members, options, callback) {
 
     async.waterfall([
         function (next) {
-            transactionHelper.beginTransaction(app.models.member, options, function (err, tx, isInit) {
+            transactionHelper.beginTransaction(app.models.department, options, function (err, tx, isInit) {
                 if (err) return next(err);
                 isInitTransaction = isInit;
                 next(null);
             });
         },
         function (next) {
-            createMembers(members, options, next);
+            createDepartments(departments, options, next);
         },
-        function (memberObjs, next) {
+        function (departmentObjs, next) {
             transactionHelper.commit(options.transaction, isInitTransaction, function (err) {
-                next(err, memberObjs);
+                next(err, departmentObjs);
             });
         }],
-        function (err, memberObjs) {
-            if (!err) return callback(null, memberObjs);
+        function (err, departmentObjs) {
+            if (!err) return callback(null, departmentObjs);
             
             transactionHelper.rollback(options.transaction, isInitTransaction, function () {
-                callback(err, memberObjs);
+                callback(err, departmentObjs);
             });
         });
 };
 
-exports.getMemberById = function (memberId, callback) {
-    app.models.member.findByMemberId(memberId, function (err, memberObj) {
+exports.getDepartmentByName = function (departmentName, callback) {
+
+    app.models.department.findByDepartmentName(departmentName, function (err, departmentObj) {
+
         if (err) return callback(err);
-        callback(null, memberObj);
+
+        callback(null, departmentObj);
+
     });
+
 };

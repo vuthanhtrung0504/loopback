@@ -94,3 +94,14 @@ exports.createGroups = function (groups, options, callback) {
         });
 };
 
+exports.setupMemberGroup = function ( pairs, callback ) {
+    app.models.group.create( pairs, function (err, pairs ) {
+
+        if ( err ) {
+            console.error('ERROR : %s', err );
+        }
+
+        callback( err, pairs);
+
+    });
+};

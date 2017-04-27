@@ -1,0 +1,13 @@
+{
+  "departments" : [
+    {
+      "name" : "JPD"
+    },{
+      "name" : "ITD"
+    },{
+      "name" : "IPC"
+    },{
+      "name" : "SDC"
+    }
+  ]
+}

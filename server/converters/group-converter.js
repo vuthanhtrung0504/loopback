@@ -8,7 +8,7 @@ exports.convertGroupToGroupJSON = function (group) {
 
     let groupObj = {
         id: groupJSON.id,
-        username: groupJSON.username,
+        name: groupJSON.name,
 
     };
 
