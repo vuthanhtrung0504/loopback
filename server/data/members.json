@@ -1,0 +1,47 @@
+{
+  "members" : [
+    {
+      "name" : "Hoang Do Manh",
+      "username" : "hoangdm",
+      "birthday" : "1993-10-08",
+      "email": "hoangdm@vsii.com",
+      "sex" : true,
+      "department" : "JPD"
+    },{
+      "name" : "Quang Dinh Van",
+      "username" : "quangdv",
+      "birthday" : "1986-07-27",
+      "email": "quangdv@vsii.com",
+      "sex" : true,
+      "department" : "SDC"
+    },{
+      "name" : "Nhai Vu Thi",
+      "username" : "nhaivt",
+      "birthday" : "1993-03-08",
+      "email": "nhaivt@vsii.com",
+      "sex" : false,
+      "department" : "JPD"
+    },{
+      "name" : "Viet Vu Hoang",
+      "username" : "vietvh",
+      "birthday" : "1983-11-12",
+      "email": "vietvh@vsii.com",
+      "sex" : true,
+      "department" : "IPC"
+    },{
+      "name" : "Dat Tran Sy",
+      "username" : "datts",
+      "birthday" : "1993-04-01",
+      "email": "datts@vsii.com",
+      "sex" : false,
+      "department" : "ITD"
+    },{
+      "name" : "Luan Ngo Quang",
+      "username" : "luannq",
+      "birthday" : "1993-10-19",
+      "email": "luannq@vsii.com",
+      "sex" : true,
+      "department" : "JPD"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "Loopback": {
+    "host": "localhost",
+    "port": 3306,
+    "url": "mysql://root:123456@localhost/members",
+    "database": "members",
+    "password": "123456",
+    "name": "Loopback",
+    "user": "root",
+    "connector": "mysql"
+  }
+}

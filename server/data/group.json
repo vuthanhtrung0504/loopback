@@ -1,0 +1,13 @@
+{
+  "groups" : [
+    {
+      "name" : "Football"
+    },{
+      "name" : "Badminton"
+    },{
+      "name" : "Pingpong"
+    },{
+      "name" : "Technical Support"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "member",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "username": {
+      "type": "string",
+      "required": true,
+      "index": {
+        "unique": true
+      }
+    },
+    "email": {
+      "type": "string"
+    },
+    "birthday": {
+      "type": "string"
+    },
+    "sex": {
+      "type": "boolean"
+    },
+    "department": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "department": {
+      "type": "belongsTo",
+      "model": "department"
+    },
+    "group":{
+      "type": "hasMany",
+      "model": "group"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

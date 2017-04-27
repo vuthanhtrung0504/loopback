@@ -1,0 +1,29 @@
+{
+	"name": "department",
+	"base": "PersistedModel",
+	"idInjection": true,
+	"options": {
+		"validateUpsert": true
+	},
+	"properties": {
+		"name": {
+			"type": "string",
+			"required": true,
+			"index": {
+				"unique": true
+			}
+		},
+		"description": {
+			"type": "string"
+		}
+	},
+		"validations": [],
+		"relations": {
+			"member": {
+				"type": "hasMany",
+				"model": "member"
+			}
+		},
+	"acls": [],
+	"methods": {}
+}
