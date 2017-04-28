@@ -13,15 +13,15 @@
       "./mixins"
     ]
   },
-  "member": {
+  "Member": {
     "dataSource": "Loopback",
     "public": true
   },
-  "department": {
+  "Department": {
     "dataSource": "Loopback",
     "public": true
   },
-  "group": {
+  "Group": {
     "dataSource": "Loopback",
     "public": true
   }

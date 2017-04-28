@@ -95,8 +95,5 @@ exports.createMembers = function (members, options, callback) {
 };
 
 exports.getMemberById = function (memberId, callback) {
-    app.models.member.findByMemberId(memberId, function (err, memberObj) {
-        if (err) return callback(err);
-        callback(null, memberObj);
-    });
+    app.models.member.findByMemberId(memberId, callback)
 };

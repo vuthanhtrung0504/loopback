@@ -23,11 +23,7 @@ exports.createDepartment = function (department, options, callback) {
             });
         },
         function (next) {
-            app.models.department.create(department, options, function (err, instance) {
-                instance.forEach(function (mem) {
-                    console.log(mem.name.getIdName())
-                });
-                
+            app.models.department.create(department, options, function (err, instance) {      
                 next(err, instance);
             });
         },
@@ -35,7 +31,7 @@ exports.createDepartment = function (department, options, callback) {
             transactionHelper.commit(options.transaction, isInitTransaction, next);
         }
     ], function (err, instance) {
-
+        
         if (!err) return callback(null, instance);
 
         console.error('ERROR : %s', err);

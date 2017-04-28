@@ -2,69 +2,32 @@
 
 var app = require('./server');
 var ds = app.dataSources.Loopback;
-var members = require('./data/members');
-var groups = require('./data/groups');
-var departments = require('./data/departments');
-var memberService = require('../server/services/member-service');
-var departmentService = require('../server/services/department-service');
-var groupService = require('../server/services/group-service');
-
-
+var memberJSON = require('./data/members');
+var groupJSON = require('./data/groups');
+var departmentJSON = require('./data/departments');
 var async = require('async');
 
-function setupGroups(callback) {
 
-    groupService.createGroups(groups,callback)
+function createDepartments(callback) {
 
-}
-
-function setupDepartments(callback) {
-
-    departmentService.createDepartments(departments,callback)
+    app.models.Department.create(departmentJSON.departments,callback)
 
 }
 
-function setupMembers(callback) {
-
-    memberService.createMembers(members,callback)
-
+function setupDeptMembers(departments) {
+    for (let member of memberJSON.members){
+        for(let dept of departments ){
+            if(dept.name === member.department){
+                member.departmentId = dept.id
+            }
+        }              
+    }
 }
 
-function convertObjectsToMaps(objs) {
+function createMembers(callback) {
 
-    let map = new Map();
-    objs.forEach(function (obj) {
-        map.set(obj.name, obj.id);
-    });
-
-    return map;
-}
-
-function setupMembersWithGroups(members,groups,callback) {
-
-    let memberMaps = convertObjectsToMaps(members);
-    let groupMaps = convertObjectsToMaps(groups);
-    let grpPerPairs = [];
-
-    groups.forEach(function (group) {
-
-        let groupName = persGroups.getGroup(group.name);
-        let groupId = groupMaps.get(groupName);
-
-        if (!groupId) return;
-
-        grpPerPairs.push({
-            memberId: perId,
-            groupId: groupId
-
-        });
-
-    });
-
-    groupService.setupGroupPermission(grpPerPairs, function (err) {
-        callback(err);
-    });
-
+    app.models.Member.create(memberJSON.members,callback)
+    
 }
 
 ds.automigrate(function (err) {
@@ -74,24 +37,23 @@ ds.automigrate(function (err) {
     }
 
     async.waterfall([
-        function ( next) {
-            setupGroups(function (err, group) {
-                next(err, group);
-            });
+        function (next) {
+            createDepartments(function (err, departments){
+                next(err,departments)
+            })
         },
-
-        function (group, next) {
-            setupMembers(function (err, member) {
-                next(err, member , group );
-            });
+        function (departments,next){
+            setupDeptMembers(departments)
+            next()            
         },
-
-        function (member ,group ,next) {
-            setupDepartments(function (err, department) {
-                next(err, department);
-            });
+        function (next){
+            console.log('member2',memberJSON.members)
+            createMembers(function(err){
+                next(err)
+            })
+            
         }
-
+        
     ], function (err) {
 
         if (err) {
