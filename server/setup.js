@@ -6,6 +6,22 @@ var memberJSON = require('./data/members');
 var groupJSON = require('./data/groups');
 var departmentJSON = require('./data/departments');
 var async = require('async');
+let where = {
+    id: 1
+};
+
+let includeGroups = {
+    relation: 'groups'
+};
+
+let includeDepartments = {
+    relation: 'departments'
+};
+
+let filter = {
+    where: where,
+    include: [includeGroups, includeDepartments]
+};
 
 
 function createDepartments(callback) {
@@ -30,6 +46,20 @@ function createMembers(callback) {
     
 }
 
+function createGroups(callback) {
+
+    app.models.Group.create(groupJSON.groups,callback)
+    
+}
+
+function findMem(callback){
+    app.models.Member.find(filter, callback)
+}
+
+function Mem(callback){
+    
+}
+
 ds.automigrate(function (err) {
     if (err) {
         console.error('ERROR : %s', err.message);
@@ -47,8 +77,32 @@ ds.automigrate(function (err) {
             next()            
         },
         function (next){
-            console.log('member2',memberJSON.members)
             createMembers(function(err){
+                next(err)
+            })
+            
+        },
+        function (next){
+            createGroups(function(err,group){
+                console.log(group[0])
+                next(err,group)
+            })
+            
+        },
+        function (group,next){
+            findMem(function(err,mem){
+                mem[0].groups.add(group[0].id)
+                mem[0].groups.add(group[1].id)
+                mem[0].groups.add(group[3].id)
+                next(err)
+            })
+            
+        },
+        function (next){
+            findMem(function(err,mems){
+                mems[0].groups.findById({groupId:1},function(err,gr){
+                    console.log('avv',gr)
+                })
                 next(err)
             })
             
