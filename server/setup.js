@@ -84,7 +84,6 @@ ds.automigrate(function (err) {
         },
         function (next){
             createGroups(function(err,group){
-                console.log(group[0])
                 next(err,group)
             })
             
@@ -99,13 +98,17 @@ ds.automigrate(function (err) {
             
         },
         function (next){
-            findMem(function(err,mems){
-                mems[0].groups.findById({groupId:1},function(err,gr){
-                    console.log('avv',gr)
-                })
-                next(err)
+            findMem(function(err,mem){
+                console.log(mem)
+
+                next(err,mem)
             })
             
+        },
+        function (mem,next){
+            mem[0].groups.findById(1,function(err,gr){
+                    console.log('avv',gr)
+            })
         }
         
     ], function (err) {
